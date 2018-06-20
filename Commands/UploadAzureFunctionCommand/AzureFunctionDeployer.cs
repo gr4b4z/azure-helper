@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class AppDeployer
+    public class AzureFunctionDeployer
     {
         private string siteurl = "https://[FUNCTION_NAME].scm.azurewebsites.net/api/zipdeploy";
         public Task<HttpResponseMessage> Upload(string user, string password, string appUrl, string zipPath)

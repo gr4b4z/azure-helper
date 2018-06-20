@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace AzureHelper.Logic
 {
-    class GenerateWebsite
+    class WebsiteCreator
     {
         public async System.Threading.Tasks.Task GenerateAsync(string storageAccountName, string storageAccountKey)
         {

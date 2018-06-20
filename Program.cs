@@ -1,4 +1,5 @@
-﻿using AzureHelper.Logic;
+﻿using AzureHelper.Commands;
+using AzureHelper.Logic;
 using Microsoft.Extensions.CommandLineUtils;
 using Newtonsoft.Json;
 using System;
@@ -11,66 +12,6 @@ namespace ConsoleApp1
     class Program
     {
 
-        private static string GetStateFileContent(string filepath)
-        {
-            if (filepath.EndsWith('/') || filepath.EndsWith('\\'))
-            {
-                filepath += "terraform.tfstate";
-            }
-            return File.ReadAllText(filepath);
-        }
-        private static void UploadAzureFunctionCommand(CommandLineApplication command)
-        {
-            command.Description = "Uploads zip function app to Azure";
-            command.HelpOption("-?|-h|--help");
-            var path = command.Argument("path", "Zip path");
-            var user = command.Option("-u|--user", "User name", CommandOptionType.SingleValue);
-            var pwd = command.Option("-p|--password", "Password", CommandOptionType.SingleValue);
-            var appname = command.Option("-a|--appurl", "Function name", CommandOptionType.SingleValue);
-
-
-            var tfstate = command.Option("-t|--tfstate", "Teraform state file", CommandOptionType.SingleValue);
-            var res = command.Option("-k|--resourcekey", "Teraform resource key file", CommandOptionType.SingleValue);
-
-            command.OnExecute(async () =>
-            {
-                string _user = null;
-                string _pwd = null;
-                string _name = null;
-
-                if (tfstate.HasValue())
-                {
-                    var storage = new StateReader(GetStateFileContent(tfstate.Value()));
-                    (_name, _user, _pwd) = storage.GetFunctionAppCredentials(res.Value());
-                }
-                else
-                {
-                    (_name, _user, _pwd) = (appname.Value(), user.Value(), pwd.Value());
-                }
-                await new AppDeployer().Upload(_user, _pwd, _name, path.Value);
-
-
-                return 0;
-            });
-        }
-        private static void DownloadFileCommand(CommandLineApplication command)
-        {
-            //public async System.Threading.Tasks.Task GetFileContent(string path, string container,string localFolder)
-            command.Description = "Download file";
-            command.HelpOption("-?|-h|--help");
-            var container = command.Argument("container", "Container name");
-            var remote = command.Argument("remote", "Remote file");
-            var path = command.Argument("path", "Local path");
-            var cs = command.Option("-c|--connectionstring", "Azure blob storage connection string", CommandOptionType.SingleValue);
-            command.OnExecute(async () =>
-            {
-                string connectionString = cs.Value();
-                var scs = new Storage(connectionString);
-
-                await scs.GetFileContent(remote.Value, container.Value, path.Value);
-                return 0;
-            });
-        }
 
         static void Main(string[] args)
         {
@@ -89,13 +30,29 @@ namespace ConsoleApp1
             });
 
 
-          
-            app.Command("download", DownloadFileCommand);
+
+            app.Command("download", DownloadFileCommand.Execute);
             app.Command("upload", (command) =>
             {
-                command.Command("app", UploadAzureFunctionCommand);
-                command.Command("folder", UploadFolderCommand);
+                command.Description = "Upload app or folder";
+                command.HelpOption("-?|-h|--help");
+
+                command.Command("app", new UploadAzureFunctionCommand().Execute);
+                command.Command("folder", new UploadFolderCommand().Execute);
+
             });
+            app.Command("tf", (command) =>
+            {
+                command.Description = "Get terraform data";
+                command.HelpOption("-?|-h|--help");
+                command.Command("attribute", new GetAttributeCommand().Execute);
+                command.Command("cs", new GetSqlConnectionStringCommand().Execute);
+                command.Command("replace", new ReplaceAttributeCommand().Execute);
+
+            });
+
+            app.Command("sql", new MsSqlQueryCommand().Execute);
+
 
             app.Command("setsite", (command) =>
             {
@@ -122,19 +79,19 @@ namespace ConsoleApp1
                     }
                     else
                     {
-                        var state = new StateReader(GetStateFileContent(tfstate.Value()));
+                        var state = new TerraformState(new StateFileContent(tfstate.HasValue() ? tfstate.Value() : null));
                         name = state.GetResourceName(res.Value());
-                        key = state.GetResourceAccessKey(res.Value());
+                        key = state.GetResourceByPath(res.Value()+ ".primary_access_key");
                     }
 
-                    await new GenerateWebsite().GenerateAsync(name, key);
+                    await new WebsiteCreator().GenerateAsync(name, key);
                     return 0;
                 });
             });
 
 
 
-            
+
 
 
 
@@ -143,45 +100,9 @@ namespace ConsoleApp1
 
         }
 
-       
-        private static void UploadFolderCommand(CommandLineApplication command)
-        {
-            command.Description = "Uploads folder to Azure storage";
-            command.HelpOption("-?|-h|--help");
-            var container = command.Argument("container", "Container name");
-            var path = command.Argument("path", "Folder path");
 
-            var cs = command.Option("-c|--connectionstring", "Azure blob storage connection string", CommandOptionType.SingleValue);
-            var tfstate = command.Option("-t|--tfstate", "Teraform state file", CommandOptionType.SingleValue);
-            var res = command.Option("-k|--resourcekey", "Teraform resource key file", CommandOptionType.SingleValue);
-            var labels = command.Option("-m|--labels", "Tag files with key=value paris", CommandOptionType.MultipleValue);
+   
 
-            command.OnExecute(async () =>
-            {
-                string connectionString = GetConnectionString(cs, tfstate, res);
-                var scs = new Storage(connectionString);
-                var lbl = labels.Values.Select(v => v.Split('=')).ToDictionary(a => a[0], b => b[1]);
-                await scs.PushFolderAsync(path.Value, container.Value, false, lbl);
-                return 0;
-            });
-        }
-
-        private static string GetConnectionString(CommandOption cs, CommandOption tfstate, CommandOption res)
-        {
-            string connectionString = null;
-            if (tfstate.HasValue())
-            {
-                if (!res.HasValue())
-                    throw new Exception("When using state file, resource key has to be provided");
-                var storage = new StateReader(GetStateFileContent(tfstate.Value()));
-                connectionString = storage.GetBlobConnectionString(res.Value());
-            }
-            else
-            {
-                connectionString = cs.Value();
-            }
-
-            return connectionString;
-        }
+    
     }
 }
