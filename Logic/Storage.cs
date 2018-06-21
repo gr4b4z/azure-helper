@@ -3,6 +3,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ConsoleApp1
 {
@@ -71,8 +72,31 @@ namespace ConsoleApp1
             }
         }
 
+        public async System.Threading.Tasks.Task UploadContent(string content, string filename,string container)
+        {
+            CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
 
-        public async System.Threading.Tasks.Task GetFileContent(string remotefilename, string container, string localFolder)
+            var cloudBlobContainer = cloudBlobClient.GetContainerReference(container);
+            await cloudBlobContainer.CreateIfNotExistsAsync();
+            CloudBlockBlob blob = cloudBlobContainer.GetBlockBlobReference(filename);
+            await blob.UploadTextAsync(content);
+            
+        }
+
+        public async System.Threading.Tasks.Task<string> GetFileContent(string remotefilename, string container)
+        {
+
+            CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
+            var cloudBlobContainer = cloudBlobClient.GetContainerReference(container);
+            if (await cloudBlobContainer.ExistsAsync())
+            {
+                var r = cloudBlobContainer.GetBlockBlobReference(remotefilename);
+                return await r.DownloadTextAsync();
+            }
+            return null;
+        }
+
+        public async System.Threading.Tasks.Task SaveFileContent(string remotefilename, string container, string localFolder)
         {
             CloudBlobClient cloudBlobClient = storageAccount.CreateCloudBlobClient();
             var cloudBlobContainer = cloudBlobClient.GetContainerReference(container);

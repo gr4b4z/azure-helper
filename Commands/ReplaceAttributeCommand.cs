@@ -3,6 +3,7 @@ using Microsoft.Extensions.CommandLineUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace AzureHelper.Commands
@@ -33,12 +34,27 @@ namespace AzureHelper.Commands
                 var state = new TerraformState(new StateFileContent(tfstate.HasValue() ? tfstate.Value() : null));
                 var fi = new List<string>();
                 
-                foreach (var item in files.Values.ToArray())
+                foreach (var item in files.Values.Select(e=> e.TrimEnd('/', '\\')))
                 {
                     if (Directory.Exists(item))
                     {
-                        var f = Directory.EnumerateFiles(item, pattern.HasValue()?pattern.Value():"*.*", new EnumerationOptions { RecurseSubdirectories = true });
-                        fi.AddRange(f);
+                        if (pattern.HasValue())
+                        {
+                            pattern.Value().Split('|').ToList()
+                            .ForEach(p =>
+                            {
+                                var f = Directory.EnumerateFiles(item, p, new EnumerationOptions { RecurseSubdirectories = true });
+                                fi.AddRange(f);
+                            });
+                           
+                            
+                        }
+                        else
+                        {
+                            var f = Directory.EnumerateFiles(item,"*.*", new EnumerationOptions { RecurseSubdirectories = true });
+                            fi.AddRange(f);
+                        }
+                        
                     }
                     else
                     {
@@ -52,7 +68,6 @@ namespace AzureHelper.Commands
 
         public void Replace(string path, TerraformState state,string tag)
         {
-            Console.WriteLine("Replacing "+path);
             var file = File.ReadAllText(path);
             var matches = Regex.Matches(file, tag+"([0-9a-z_.]*)");
             var replacements = new List<Tuple<string, string>>();

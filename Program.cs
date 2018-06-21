@@ -22,7 +22,7 @@ namespace ConsoleApp1
             };
 
             app.HelpOption("-?|-h|--help");
-
+            
             app.OnExecute(() =>
             {
                 app.ShowHint();
@@ -51,7 +51,7 @@ namespace ConsoleApp1
 
             });
 
-            app.Command("sql", new MsSqlQueryCommand().Execute);
+            //app.Command("sql", new MsSqlQueryCommand().Execute);
 
 
             app.Command("setsite", (command) =>

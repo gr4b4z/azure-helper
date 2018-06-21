@@ -22,7 +22,7 @@ namespace AzureHelper.Commands
                 string connectionString = cs.Value();
                 var scs = new AzureStorage(connectionString);
 
-                await scs.GetFileContent(remote.Value, container.Value, path.Value);
+                await scs.SaveFileContent(remote.Value, container.Value, path.Value);
                 return 0;
             });
         }

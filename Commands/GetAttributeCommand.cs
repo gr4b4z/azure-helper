@@ -25,7 +25,7 @@ namespace AzureHelper.Commands
                 var attributeValue = attribute.Value;
                 if (res.HasValue())
                 {
-                    attributeValue = res.HasValue() + attribute.Value;
+                    attributeValue = res.Value() + attribute.Value;
                 }
                 var content = state.GetResourceByPath(attributeValue);
                 if (file.HasValue())
