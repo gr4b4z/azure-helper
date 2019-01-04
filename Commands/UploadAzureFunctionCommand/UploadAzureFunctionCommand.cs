@@ -24,7 +24,7 @@ namespace AzureHelper.Commands
             var appname = command.Option("-a|--name", "Function name", CommandOptionType.SingleValue);
 
             var forceUpload = command.Option("-f|--force", "Upload even if the same function exits", CommandOptionType.NoValue);
-            var storageConnectionString = command.Option("--scstring", "Azure storage connection string for state", CommandOptionType.SingleValue);
+            var storageConnectionStringParam = command.Option("--scstring", "Azure storage connection string for state", CommandOptionType.SingleValue);
             var storageRes = command.Option("--sresourcekey", "TF Resource key containing azure storage connection string ", CommandOptionType.SingleValue);
             var container = command.Option("--container", "Remote container name", CommandOptionType.SingleValue);
 
@@ -58,9 +58,9 @@ namespace AzureHelper.Commands
                 {
                     _storageConenctionString = storage.GetResourceByPath(storageRes.Value());
                 }
-                else if (storageConnectionString.HasValue())
+                else if (storageConnectionStringParam.HasValue())
                 {
-                    _storageConenctionString = storageConnectionString.Value();
+                    _storageConenctionString = storageConnectionStringParam.Value();
                 }
 
 
@@ -69,7 +69,7 @@ namespace AzureHelper.Commands
 
 
                 AzureFunctionDeployer functionDeployer;
-                if (storageConnectionString == null)
+                if (_storageConenctionString == null)
                 {
                     functionDeployer =new AzureFunctionDeployer();
                 }

@@ -34,7 +34,7 @@ namespace ConsoleApp1
             app.Command("download", DownloadFileCommand.Execute);
             app.Command("upload", (command) =>
             {
-                command.Description = "Upload app or folder";
+                command.Description = "Upload app or folder to Azure Storage";
                 command.HelpOption("-?|-h|--help");
 
                 command.Command("app", new UploadAzureFunctionCommand().Execute);
@@ -56,7 +56,7 @@ namespace ConsoleApp1
 
             app.Command("setsite", (command) =>
             {
-                command.Description = "Set azure website temporary solution";
+                command.Description = "Set azure website (temporary solution)";
                 command.HelpOption("-?|-h|--help");
 
                 var cs = command.Option("-c|--connectionstring", "Azure blob storage connection string", CommandOptionType.SingleValue);

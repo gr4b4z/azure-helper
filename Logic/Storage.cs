@@ -79,6 +79,7 @@ namespace ConsoleApp1
             var cloudBlobContainer = cloudBlobClient.GetContainerReference(container);
             await cloudBlobContainer.CreateIfNotExistsAsync();
             CloudBlockBlob blob = cloudBlobContainer.GetBlockBlobReference(filename);
+            
             await blob.UploadTextAsync(content);
             
         }
@@ -91,7 +92,12 @@ namespace ConsoleApp1
             if (await cloudBlobContainer.ExistsAsync())
             {
                 var r = cloudBlobContainer.GetBlockBlobReference(remotefilename);
-                return await r.DownloadTextAsync();
+                if(await r.ExistsAsync())
+                {
+                    return await r.DownloadTextAsync();
+
+                }
+
             }
             return null;
         }

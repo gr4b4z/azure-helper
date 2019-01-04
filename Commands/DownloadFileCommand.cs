@@ -11,7 +11,7 @@ namespace AzureHelper.Commands
         public static void Execute(CommandLineApplication command)
         {
             //public async System.Threading.Tasks.Task GetFileContent(string path, string container,string localFolder)
-            command.Description = "Download file";
+            command.Description = "Download file from Azure Storage";
             command.HelpOption("-?|-h|--help");
             var container = command.Argument("container", "Container name");
             var remote = command.Argument("remote", "Remote file");

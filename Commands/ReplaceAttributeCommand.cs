@@ -69,7 +69,7 @@ namespace AzureHelper.Commands
         public void Replace(string path, TerraformState state,string tag)
         {
             var file = File.ReadAllText(path);
-            var matches = Regex.Matches(file, tag+"([0-9a-z_.]*)");
+            var matches = Regex.Matches(file, tag+"([0-9a-z_.-]*)");
             var replacements = new List<Tuple<string, string>>();
             if (matches.Count == 0) return;
             Console.WriteLine("Replacing " + path);
