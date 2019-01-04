@@ -16,6 +16,7 @@ artifacts:
   name: linux-x64.azure-helper
 
 deploy:
+  tag: $(APPVEYOR_REPO_TAG_NAME)
   release: 1.0-v$(appveyor_build_version)
   description: 'Azure helper new version'
   provider: GitHub
@@ -26,4 +27,3 @@ deploy:
   prerelease: false
   on:
     branch: master                 # release from master branch only
-    appveyor_repo_tag: true 
