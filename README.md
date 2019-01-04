@@ -1,3 +1,6 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/e1ia1r0arwcdl8wb?svg=true)](https://ci.appveyor.com/project/gr4b4z/azure-helper-q2waa)
+
+
 # Azure-TF-Helper
 AzureTF Helper is a little cli tool that helps interacting with terraform state and azure
 
