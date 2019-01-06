@@ -4,7 +4,7 @@ image:
   - Ubuntu
 environment:  
   APPVEYOR_YML_DISABLE_PS_LINUX: true
-  
+
 branches:
   only:
     - master
@@ -22,6 +22,7 @@ artifacts:
 
 deploy:
   release: 1.0-v$(APPVEYOR_BUILD_VERSION)
+  tag: $(APPVEYOR_REPO_TAG_NAME)
   description: 'Azure helper new version'
   provider: GitHub
   auth_token:
@@ -29,5 +30,4 @@ deploy:
   artifact: win-x64.tfcloud.exe;linux-x64.tfcloud           # upload all NuGet packages to release assets
   draft: false
   prerelease: false
-  on:
-    APPVEYOR_REPO_TAG: true          
+      
