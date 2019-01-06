@@ -5,6 +5,8 @@ image:
 environment:  
   APPVEYOR_YML_DISABLE_PS_LINUX: true
 
+skip_tags: true
+
 branches:
   only:
     - master
