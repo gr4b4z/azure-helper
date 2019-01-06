@@ -23,7 +23,6 @@ gr4b4z@pc1:~/home$ curl -Loa AzureHelper https://github.com/gr4b4z/azure-helper/
 gr4b4z@pc1:~/home$ chmod +x AzureHelper
 ```
 ### Windows
-**Create the directory for the application**
 ```powershell
 PS C:\Users\gr4b4z\tmp> [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 PS C:\Users\gr4b4z\tmp> Invoke-WebRequest https://github.com/gr4b4z/azure-helper/releases/download/1.0.3/AzureHelper -OutFile AzureHelper
