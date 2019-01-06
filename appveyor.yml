@@ -4,7 +4,7 @@ image:
   - Ubuntu
 environment:  
   APPVEYOR_YML_DISABLE_PS_LINUX: true
-
+  
 branches:
   only:
     - master
@@ -29,3 +29,5 @@ deploy:
   artifact: win-x64.tfcloud.exe;linux-x64.tfcloud           # upload all NuGet packages to release assets
   draft: false
   prerelease: false
+  on:
+    APPVEYOR_REPO_TAG: true          
