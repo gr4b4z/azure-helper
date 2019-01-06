@@ -1,4 +1,5 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/e1ia1r0arwcdl8wb?svg=true)](https://ci.appveyor.com/project/gr4b4z/tfcloud-helper-q2waa)
+[![Build status](https://ci.appveyor.com/api/projects/status/e1ia1r0arwcdl8wb?svg=true)](https://ci.appveyor.com/project/gr4b4z/azure-helper-q2waa)
+
 
 
 # Terraform Cloud Helper
