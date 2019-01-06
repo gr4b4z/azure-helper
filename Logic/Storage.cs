@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace ConsoleApp1
+namespace TerraformCloudHelper
 {
     public class AzureStorage
     {

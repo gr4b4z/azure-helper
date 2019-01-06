@@ -1,9 +1,9 @@
-﻿using ConsoleApp1;
+﻿using TerraformCloudHelper;
 using Microsoft.Extensions.CommandLineUtils;
 using System;
 using System.IO;
 
-namespace AzureHelper.Commands
+namespace TerraformCloudHelper.Commands
 {
     class GetAttributeCommand
     {

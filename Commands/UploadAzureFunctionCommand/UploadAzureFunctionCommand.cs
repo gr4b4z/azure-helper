@@ -1,11 +1,11 @@
-﻿using ConsoleApp1;
+﻿using TerraformCloudHelper;
 using Microsoft.Extensions.CommandLineUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzureHelper.Commands
+namespace TerraformCloudHelper.Commands
 {
     public static class CommandExtension {
         public static string GetValueOrNull(this CommandOption  option){

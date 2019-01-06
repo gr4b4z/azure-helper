@@ -1,7 +1,8 @@
-﻿using ConsoleApp1;
-using System.Linq;
+﻿using System.Linq;
+using TerraformCloudHelper.Commands;
+using TerraformCloudHelper;
 
-namespace AzureHelper.Commands
+namespace TerraformCloudHelper.Builders
 {
     class AzureSqlConnectionStringBuilder
     {

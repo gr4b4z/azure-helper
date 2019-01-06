@@ -1,8 +1,8 @@
-﻿using ConsoleApp1;
+﻿using TerraformCloudHelper;
 using Microsoft.Extensions.CommandLineUtils;
 using System.Linq;
 
-namespace AzureHelper.Commands
+namespace TerraformCloudHelper.Commands
 {
     class UploadFolderCommand
     {

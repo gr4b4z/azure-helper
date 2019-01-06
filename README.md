@@ -1,8 +1,8 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/e1ia1r0arwcdl8wb?svg=true)](https://ci.appveyor.com/project/gr4b4z/azure-helper-q2waa)
+[![Build status](https://ci.appveyor.com/api/projects/status/e1ia1r0arwcdl8wb?svg=true)](https://ci.appveyor.com/project/gr4b4z/tfcloud-helper-q2waa)
 
 
-# Azure-TF-Helper
-AzureTF Helper is a little cli tool that helps interacting with terraform state and azure
+# Terraform Cloud Helper
+Terraform Cloud Helper is a little cli tool that helps interacting with terraform state and azure
 
 ### Table of Content
   * [Download](#download)
@@ -19,13 +19,13 @@ AzureTF Helper is a little cli tool that helps interacting with terraform state 
 ## download
 ### Linux
 ```sh
-gr4b4z@pc1:~/home$ curl -Loa AzureHelper https://github.com/gr4b4z/azure-helper/releases/download/1.0.3/AzureHelper
-gr4b4z@pc1:~/home$ chmod +x AzureHelper
+gr4b4z@pc1:~/home$ curl -Loa tfcloud https://github.com/gr4b4z/tfcloud-helper/releases/download/1.0.3/linux-x64.tfcloud
+gr4b4z@pc1:~/home$ chmod +x tfcloud
 ```
 ### Windows
 ```powershell
 PS C:\Users\gr4b4z\tmp> [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
-PS C:\Users\gr4b4z\tmp> Invoke-WebRequest https://github.com/gr4b4z/azure-helper/releases/download/1.0.3/AzureHelper -OutFile AzureHelper
+PS C:\Users\gr4b4z\tmp> Invoke-WebRequest https://github.com/gr4b4z/tfcloud-helper/releases/download/1.0.3/win-x64.tfcloud.exe -OutFile tfcloud.exe
 ```
 ## How to
 ```powershell
@@ -40,13 +40,13 @@ Commands:
 
 **Get remote TF state**
 ```powershell
- .\AzureHelper.exe tf attribute download [remote-container-name] [remote-file-name] terraform.tfstate --c [Azure blob storage connection string]
+ .\tfcloud.exe tf attribute download [remote-container-name] [remote-file-name] terraform.tfstate --c [Azure blob storage connection string]
 ```
 
 **Get attribute from terraform.tfstate file**
 ```powershell
- .\AzureHelper.exe tf attribute azurerm_servicebus_topic.test.name -f terraform.tfstate #looking for attribute name from the azurerm_servicebus_topic rersource
- .\AzureHelper.exe tf attribute azurerm_servicebus_topic.test.name  #when no tfstate file, it search throught all *.tfstate files in the current directory
+ .\tfcloud.exe tf attribute azurerm_servicebus_topic.test.name -f terraform.tfstate #looking for attribute name from the azurerm_servicebus_topic rersource
+ .\tfcloud.exe tf attribute azurerm_servicebus_topic.test.name  #when no tfstate file, it search throught all *.tfstate files in the current directory
 ```
 
 **Replace key in a file base on terraform.tfstate **
@@ -58,7 +58,7 @@ Commands:
 @#terraform. is a default replacement prefix. 
 
 ```powershell
- .\AzureHelper.exe tf replace index.html #replace all tags keys started from @#terraform. to the values from terraform.tfstate
+ .\tfcloud.exe tf replace index.html #replace all tags keys started from @#terraform. to the values from terraform.tfstate
 ```
 
 

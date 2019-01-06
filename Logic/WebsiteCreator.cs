@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Xml.Linq;
 
-namespace AzureHelper.Logic
+namespace TerraformCloudHelper.Logic
 {
     class WebsiteCreator
     {

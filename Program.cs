@@ -1,13 +1,14 @@
-﻿using AzureHelper.Commands;
-using AzureHelper.Logic;
+﻿using TerraformCloudHelper.Commands;
+using TerraformCloudHelper.Logic;
 using Microsoft.Extensions.CommandLineUtils;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using TerraformCloudHelper.Commands;
 
-namespace ConsoleApp1
+namespace TerraformCloudHelper
 {
     class Program
     {

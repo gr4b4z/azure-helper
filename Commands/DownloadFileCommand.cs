@@ -1,10 +1,10 @@
-﻿using ConsoleApp1;
+﻿using TerraformCloudHelper;
 using Microsoft.Extensions.CommandLineUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AzureHelper.Commands
+namespace TerraformCloudHelper.Commands
 {
     class DownloadFileCommand
     {

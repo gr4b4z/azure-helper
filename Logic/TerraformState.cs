@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AzureHelper.Commands;
+using TerraformCloudHelper.Commands;
 using Newtonsoft.Json.Linq;
 
-namespace ConsoleApp1
+namespace TerraformCloudHelper
 {
     public class TerraformState
     {

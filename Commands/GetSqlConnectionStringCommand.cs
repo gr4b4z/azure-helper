@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.CommandLineUtils;
-using System;
+﻿using System;
 using System.IO;
+using TerraformCloudHelper.Commands;
+using Microsoft.Extensions.CommandLineUtils;
+using TerraformCloudHelper.Builders;
 
-namespace AzureHelper.Commands
+namespace TerraformCloudHelper.Commands
 {
     class GetSqlConnectionStringCommand
     {

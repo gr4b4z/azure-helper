@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AzureHelper.Commands
+namespace TerraformCloudHelper.Commands
 {
    public class StateFileContent: IEnumerable<string>
     {
