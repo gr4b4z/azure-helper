@@ -4,7 +4,9 @@ image:
   - Ubuntu
 environment:  
   APPVEYOR_YML_DISABLE_PS_LINUX: true
-
+skip_commits:
+  files:
+    - README.md
 branches:
   only:
     - master

@@ -20,13 +20,13 @@ Terraform Cloud Helper is a little cli tool that helps interacting with terrafor
 ## download
 ### Linux
 ```sh
-gr4b4z@pc1:~/home$ curl -Loa tfcloud https://github.com/gr4b4z/tfcloud-helper/releases/download/1.0.3/linux-x64.tfcloud
+gr4b4z@pc1:~/home$ curl -Loa tfcloud https://github.com/gr4b4z/tfcloud-helper/releases/download/2.0.45/linux-x64.tfcloud
 gr4b4z@pc1:~/home$ chmod +x tfcloud
 ```
 ### Windows
 ```powershell
 PS C:\Users\gr4b4z\tmp> [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
-PS C:\Users\gr4b4z\tmp> Invoke-WebRequest https://github.com/gr4b4z/tfcloud-helper/releases/download/1.0.3/win-x64.tfcloud.exe -OutFile tfcloud.exe
+PS C:\Users\gr4b4z\tmp> Invoke-WebRequest https://github.com/gr4b4z/tfcloud-helper/releases/download/2.0.45/win-x64.tfcloud.exe -OutFile tfcloud.exe
 ```
 ## How to
 ```powershell
