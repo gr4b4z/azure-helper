@@ -65,7 +65,6 @@ namespace TerraformCloudHelper
             }
             catch
             {
-                Console.WriteLine($"Provided key = {path} doesn't exists");
                 throw;
             }
         }

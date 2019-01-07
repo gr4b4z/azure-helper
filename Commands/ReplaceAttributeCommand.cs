@@ -77,11 +77,23 @@ namespace TerraformCloudHelper.Commands
             {
                 Console.WriteLine("Replacing " + path);
             }
+            string itemToReplace="";
             foreach (Match item in matches)
             {
-                var itemToReplace = item.Groups[1].Value;
-                var res = state.GetResourceByPath(itemToReplace);
-                replacements.Add(new Tuple<string, string>(tag + itemToReplace, res));
+                try
+                {
+                    itemToReplace = item.Groups[1].Value;
+                    var res = state.GetResourceByPath(itemToReplace);
+                    replacements.Add(new Tuple<string, string>(tag + itemToReplace, res));
+                }catch(Exception exc)
+                {
+                    if (print_on_output == false)
+                    {
+                        Console.WriteLine($"Provided key = {itemToReplace} doesn't exists");
+
+                    }
+                }
+                
             }
             foreach(var rep in replacements)
             {
