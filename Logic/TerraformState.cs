@@ -18,23 +18,33 @@ namespace TerraformCloudHelper
             {
                 var jobject = JObject.Parse(content);
 
-                var zz = jobject.SelectTokens("$..resources");
-                var ff = zz.Children();
-                foreach (var item in ff)
+                var modules = jobject.SelectTokens("$.modules").Children();
+
+                foreach (var module in modules)
                 {
-                    var t = (JProperty)item;
-                    if(!t.Name.Contains("data.terraform_remote_state"))
-                    terraformResources.Add(t.Name, (JObject)t.First);
+                    var children = ((JObject)module).Children();
+                   var z = children.FirstOrDefault(e => ((JProperty) e).Name == "path");
+
+                    var c = z.Children().AsJEnumerable().SelectMany(e=>e.Children()).Select(e=>e.Value<string>());
+                    var resources = children.First(e => ((JProperty)e).Name == "resources").Children().Children();
+                    foreach (var item in resources)
+                    {
+                        var t = (JProperty)item;
+                        if (!t.Name.Contains("data.terraform_remote_state"))
+                            terraformResources.Add(string.Join(".", c.Skip(1).Concat(new []{ t.Name })), (JObject)t.First);
+                    }
+
+                    var outputs = children.First(e => ((JProperty)e).Name == "outputs").Children().Children();
+                    foreach (var item in outputs)
+                    {
+                        var t = (JProperty)item;
+                            outputResources.Add(string.Join(".", c.Skip(1).Concat(new[] { t.Name })), t.First["value"].Value<string>());
+                    }
+
+
                 }
 
 
-                var outputs = jobject.SelectTokens("$..outputs");
-                foreach (var item in outputs.Children())
-                {
-                    var t = (JProperty)item;
-                    outputResources.Add(t.Name, t.First["value"].Value<string>());
-                    
-                }
 
             }
         }
@@ -47,8 +57,8 @@ namespace TerraformCloudHelper
                 return outputResources[string.Join('.', d.Skip(1))];
             }
             
-            var resourceName = string.Join('.', d.Take(2));
-            var attributeName = string.Join('.', d.Skip(2));
+            var resourceName = string.Join('.', d.Take(d.Length-1));
+            var attributeName = string.Join('.', d.Skip(d.Length - 1));
             try
             {
                 var resources = terraformResources[resourceName]["primary"];
